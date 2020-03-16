@@ -13,7 +13,7 @@ This tool takes a .csv shapefile generated from QGis and splits the polygons def
 
   * *plots*  The amount of plots in the delineated block. 
   * *Y* The Y-coordinate of the block, i.e. the column number. 
-  * *fieldcode* The X and Y coordinates of the first plot in the block. 
+  * *fieldcode* The X and Y coordinates of the first plot in the block. Formatted with a space in between, eg for plot X1Y1 = *1 1*
 
 2. Export as .csv. Precise requirements: 
   *Format - CSV
