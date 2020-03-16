@@ -22,7 +22,7 @@ import numpy as np
 
 #global vars
 PLOTS_COL = "plots"
-FIELDCODE = "fieldcode" #fieldcode column - X Y coords with space in between
+X0 = "X0" #The column containing the first X coordinate from which others are calculated
 Y = "Y" 
 POL = "WKT"
 SEP = ';' #separator for csv files
@@ -31,7 +31,7 @@ SPLIT_AXIS = 1 #0 or 1
 
 RESIZE = True
 RESIZE_X = 0.0 #ALong which axis to split. If buffering plots, Y is correct
-RESIZE_Y = 0.3
+RESIZE_Y = 0.1
 
 root = Tk()
 fn =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("csv files","*.csv"),("all files","*.*")))
@@ -125,7 +125,7 @@ def resize_pol(pol, x, y):
 ndf = pd.DataFrame(columns=['POL', 'X', 'Y'])
 for i in range(len(f)):
     n =  f[PLOTS_COL][i] 
-    xstart = int(f[FIELDCODE][i].split(' ')[0])
+    xstart = f[X0][i]
     
     pols = split_pol(wkt_to_pol(f[POL][i]), SPLIT_AXIS, n)
     x = [xstart + j for j in range(n)]
