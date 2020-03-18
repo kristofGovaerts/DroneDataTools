@@ -1,7 +1,7 @@
-# Mapeo import / export & data pre-processing
+# mapEO import / export & data pre-processing
 #### *17/03/2020*
 
-This guide outlines how to **add field layouts to Mapeo** and subsequently **export data from Mapeo**, before converting to tabular (.csv) format with X/Y coordinates, date/time info, and seperate columns for each measured column.
+This guide outlines how to **add field layouts to mapEO** and subsequently **export data from mapEO**, before converting to tabular (.csv) format with X/Y coordinates, date/time info, and seperate columns for each measured column.
 
 ## Step 1. mapEO import / export
 
@@ -43,4 +43,8 @@ This guide outlines how to **add field layouts to Mapeo** and subsequently **exp
 
 ## Step 2. Compile exported files into a single .csv
 
-TBD but see *collect_dbf_files_tosingle.py*
+Run **shpZip_to_csv.py**. Select the .zip containing the shapefiles exported from mapEO. Normally, no edits will need to be made to the code. However, extracted columns can be added or removed by editing the COLS variable. The output will be a **tab-delimited .csv** with the following columns:
+   * X, Y: X and Y coords
+   * time: Time in days after the earliest timepoint found. Lowest should be 0.
+   * date: The date, formatted as a string.
+   * *(n_pars * n_cols)* columns. One column for each parameter specified in global variable COLS (default mean, median, min, max, stddev), and one column for each parameter (eg ndvi, cover, ndre, ... ). 
