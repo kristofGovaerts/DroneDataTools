@@ -61,7 +61,7 @@ Output file: \n {}
 -------------------------------------------------------------------------------
 
 Compiling...
-""").format(pars, dates, DATEMIN, os.path.join(os.getcwd(), OUT_FILE))
+""".format(pars, dates, DATEMIN, os.path.join(os.getcwd(), OUT_FILE)))
 
 dflist_all=[] #output list
 
@@ -70,7 +70,7 @@ for par in pars:
     if len(outlist) == 0:
         print("Parameter {} not found.".format(par))
         continue
-    print('Parameter {}: {} dates found.').format(par, len(outlist))
+    print('Parameter {}: {} dates found.'.format(par, len(outlist)))
         
     dflist = []
     
@@ -94,7 +94,7 @@ for par in pars:
     dflist_all.append(out_df)
 
 finaldf = reduce(lambda x, y: pd.merge(x, y, on = JOIN_ON, how='outer'), dflist_all)
-print("\nTimepoints in final dataframe (minimum should be 0):\n {}").format(list(set(finaldf['time'])))
+print("\nTimepoints in final dataframe (minimum should be 0):\n {}".format(list(set(finaldf['time']))))
 
 finaldf.to_csv(path_or_buf=OUT_FILE, sep='\t')
 
