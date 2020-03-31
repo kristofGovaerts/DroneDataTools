@@ -29,6 +29,7 @@ PARS = ['cover', 'coverMS', 'ndre', 'ndvi', 'osavi', 'plantheight', 'psri',
         'tdvi', 'tdvi_masked', 'cigreen', 'cirededge', 'mcari']
 if MASKED:
     PARS = [p + "_masked" for p in PARS]
+TO_KEEP = ['field_1', 'X', 'Y', 'time', 'date', 'G01_MIN', 'G01_MAX', 'G01_MEAN', 'G01_Q50', 'G01_STDDEV']
 #JOIN_ON = ['X','Y', 'fieldcode', 'time', 'date']
 JOIN_ON = ['X','Y', 'time', 'date'] #list of parameters to use for joining dataframes
 DATEFORM = 'YYYYMMDD'
@@ -70,6 +71,7 @@ for par in PARS:
             time = datetime(int(date[0:4]), int(date[4:6]), int(date[6:])) - DATEMIN
             df['time'] = time.days
         df = df.dropna(axis=1, how='all') #remove empty columns
+        df = df[TO_KEEP]
         dflist.append(df)
     out_df = pd.concat(dflist)
     out_df.columns = [c.replace(REP, par) for c in out_df.columns]
