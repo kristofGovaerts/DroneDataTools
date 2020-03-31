@@ -22,14 +22,17 @@ root.withdraw()
 
 WDIR = filedialog.askdirectory()
 EXT = '.dbf'
+MASKED = True
 #PARS = ['cover', 'ndre', 'ndvi', 'osavi', 'plantheight', 'psri']
 #PARS = ['band1','band2','band3','band4','band5']
 PARS = ['cover', 'coverMS', 'ndre', 'ndvi', 'osavi', 'plantheight', 'psri', 
         'tdvi', 'tdvi_masked', 'cigreen', 'cirededge', 'mcari']
+if MASKED:
+    PARS = [p + "_masked" for p in PARS]
 #JOIN_ON = ['X','Y', 'fieldcode', 'time', 'date']
 JOIN_ON = ['X','Y', 'time', 'date'] #list of parameters to use for joining dataframes
 DATEFORM = 'YYYYMMDD'
-DATEMIN = datetime(2019, 6, 4)
+DATEMIN = datetime(2019, 8, 6)
 REP = 'G01'
 OUT_FILENAME = 'combined_pars.csv'
 
