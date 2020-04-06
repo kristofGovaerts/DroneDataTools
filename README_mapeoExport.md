@@ -48,3 +48,6 @@ Run **shpZip_to_csv.py**. Select the .zip containing the shapefiles exported fro
    * time: Time in days after the earliest timepoint found. Lowest should be 0.
    * date: The date, formatted as a string.
    * *(n_pars * n_cols)* columns. One column for each parameter specified in global variable COLS (default mean, median, min, max, stddev), and one column for each parameter (eg ndvi, cover, ndre, ... ). 
+
+   *Troubleshooting:*
+   * If it takes a very long time to generate output files, it is possible that the files uploaded to mapEO are incorrect. Particularly, if the same file has been uploaded multiple times, there will be multiple entries for each X/Y coordinate per timepoint. This does not cause errors but makes the output file extremely large, as merging the data frames can no longer be done horizontally and so number of rows increases exponentially per metric. *FIX:* Easiest way is to remove all plot layers from mapEO and reupload. 
