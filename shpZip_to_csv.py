@@ -78,13 +78,16 @@ for par in pars:
         infol = list(filter(lambda x: date in x, outlist)) #python 3 requires conversion from filter to list 
         if len(infol) == 1: #make sure there is only one file for each date
             infol = infol[0]
+            print('Date {} OK!'.format(date))
         else: #this condition should not occur. If necessary an exception can be added here
-            print('Error: Multiple files found for date {}.'.format(date))
-            break
+            print('Warning: Multiple or no files found for date {}. Skipping.'.format(date))
+            continue
         
         df = simpledbf.Dbf5(os.path.join(infol, POLFILE)).to_dataframe()
         df['date'] = date
         df['time'] = (dates_dt[i] - DATEMIN).days
+        df['X'] = pd.to_numeric(df['X']) #otherwise might be strings
+        df['Y'] = pd.to_numeric(df['Y'])
         df = df.dropna(axis=1, how='all') #remove empty columns
         dflist.append(df)
         
