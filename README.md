@@ -24,6 +24,8 @@ This tool takes a .csv shapefile generated from QGis and splits the polygons def
 
 4. Run .py file. Select the .csv boundary file, which will be scanned and splitted. Output is saved as *boundaries_splitted.csv*. This file can be re-imported into QGis. 
 
+Note that this tool can also be used just to resize plots by setting the SPLIT global variable to False. In this case, only the POL column has to be provided although you will probably also need X and Y columns later down the processing pipeline. 
+
 ## pts_to_pol.py
 This script is meant to format miniGIS files into discrete polygons based on the point coordinates in the file. 
 
