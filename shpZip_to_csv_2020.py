@@ -19,6 +19,7 @@ import simpledbf
 import pandas as pd
 import os, shutil, glob
 import re
+import warnings
 from tkinter import filedialog
 from tkinter import Tk
 from datetime import datetime
@@ -77,7 +78,9 @@ for f in allfiles:
     try:
         df = simpledbf.Dbf5(f).to_dataframe()
     except ValueError:
+        print("Error!")
         print("Table illegible!")
+        print("############################
         continue
     df['date'] = date
     df['time'] = (datetime.strptime(date, DATEFORM) - DATEMIN).days
@@ -91,6 +94,9 @@ for par in dfdict.keys():
     try:
         out_df = pd.concat(dfdict[par])  # vertical concatenation
     except ValueError:
+        w = "Cannot read table {} ! \n" \
+            "There may be cells in the .dbf file that are incorrectly formatted. Edit these and try again.".format(f)
+        warnings.warn(w, UserWarning)
         continue
     out_df = out_df[['X', 'Y', 'time', 'date'] + COLS]  # trim
     out_df.columns = [par + '_' + col if col in COLS else col for col in out_df.columns]
