@@ -25,6 +25,7 @@ from tkinter import Tk
 from datetime import datetime
 from functools import reduce #standard in python 2.x, not in 3
 
+
 JOIN_ON = ['X','Y', 'time', 'date'] #by which columns to join. 
 COLS = ['minimum', 'maximum', 'mean', 'median', 'stddev'] #which columns to export
 POLFILE = 'polygon.dbf' #exact filename of the polygon .dbf file inside the subfolder
@@ -76,15 +77,19 @@ for f in allfiles:
     print("date: {}, par: {}".format(date, par))
 
     try:
-        df = simpledbf.Dbf5(f).to_dataframe()
+        df = simpledbf.Dbf5(f, codec='utf-8').to_dataframe()
     except ValueError:
-        print("Error!")
-        print("Table illegible!")
-        print("############################
+        w = "Cannot read table {} ! \n" \
+            "There may be cells in the .dbf file that are incorrectly formatted. Edit these and try again.".format(f)
+        warnings.warn(w, UserWarning)
         continue
+    if df.isnull().values.any():
+        w = "Dataframe has empty cells! It may not be complete."
+        warnings.warn(w, UserWarning)
+
     df['date'] = date
     df['time'] = (datetime.strptime(date, DATEFORM) - DATEMIN).days
-    df['par'] = par
+    df['par'] = par  # col not used but leaving this in in case I need it later.
     df = df.dropna(axis=1, how='all')  # remove empty columns
     dfdict[par].append(df)
 
@@ -94,9 +99,6 @@ for par in dfdict.keys():
     try:
         out_df = pd.concat(dfdict[par])  # vertical concatenation
     except ValueError:
-        w = "Cannot read table {} ! \n" \
-            "There may be cells in the .dbf file that are incorrectly formatted. Edit these and try again.".format(f)
-        warnings.warn(w, UserWarning)
         continue
     out_df = out_df[['X', 'Y', 'time', 'date'] + COLS]  # trim
     out_df.columns = [par + '_' + col if col in COLS else col for col in out_df.columns]
@@ -108,3 +110,4 @@ print("\nTimepoints in final dataframe (minimum should be 0):\n {}".format(list(
 finaldf.to_csv(path_or_buf=OUT_FILE, sep='\t')
 
 shutil.rmtree(os.path.join(os.getcwd(), tdir))  # clean up
+
